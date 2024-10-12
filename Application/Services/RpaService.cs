@@ -32,17 +32,21 @@ namespace Application.Services
 
                 var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
-                var searchBox = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("header-barraBusca-form-campoBusca")));
+                var searchBox =
+                    wait.Until(ExpectedConditions.ElementIsVisible(By.Id("header-barraBusca-form-campoBusca")));
                 searchBox.SendKeys(filter);
                 searchBox.Submit();
 
-                var advancedFilterButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".show-filter-options")));
+                var advancedFilterButton =
+                    wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".show-filter-options")));
                 advancedFilterButton.Click();
 
-                var courseFilterLabel = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".busca--filtro")));
+                var courseFilterLabel =
+                    wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".busca--filtro")));
                 courseFilterLabel.Click();
 
-                var searchButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".busca-form-botao.--desktop")));
+                var searchButton =
+                    wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".busca-form-botao.--desktop")));
                 searchButton.Click();
 
                 wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".busca-resultado")));
@@ -56,12 +60,22 @@ namespace Application.Services
 
                     foreach (var element in coursesElements)
                     {
-                        await CollectCourseData(driver, element, wait);
+                        try
+                        {
+                            await CollectCourseData(driver, element, wait);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Erro ao coletar dados do curso. Pulando para o próximo curso.");
+                            continue;
+                        }
                     }
 
                     try
                     {
-                        var nextButton = driver.FindElement(By.CssSelector(".busca-paginacao-prevNext.busca-paginacao-linksProximos"));
+                        var nextButton =
+                            driver.FindElement(
+                                By.CssSelector(".busca-paginacao-prevNext.busca-paginacao-linksProximos"));
                         if (nextButton.GetAttribute("class").Contains("busca-paginacao-prevNext--disabled"))
                         {
                             hasNextPage = false;
@@ -115,6 +129,13 @@ namespace Application.Services
             catch (NoSuchElementException)
             {
                 title = "Desconhecido";
+            }
+
+            bool courseExists = await _courseRepository.ExistsAsync(title);
+            if (courseExists)
+            {
+                _logger.LogInformation($"Curso '{title}' já existe no banco de dados. Pulando este curso.");
+                return;
             }
 
             string description;
