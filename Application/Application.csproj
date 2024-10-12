@@ -9,10 +9,17 @@
     <ItemGroup>
       <PackageReference Include="Selenium.WebDriver" Version="4.25.0" />
       <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="129.0.6668.10000" />
+      <PackageReference Include="SeleniumExtras.WaitHelpers" Version="1.0.2" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+        <HintPath>..\..\..\.nuget\packages\microsoft.extensions.logging.abstractions\8.0.2\lib\net8.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

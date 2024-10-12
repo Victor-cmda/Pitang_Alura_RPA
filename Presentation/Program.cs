@@ -1,19 +1,15 @@
-// Presentation/Program.cs
 using IoC;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona serviços ao container.
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
     );
 
-// Configuração de Dependência
 DependencyInjection.RegisterServices(builder.Services);
 
-// Configuração do Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -22,7 +18,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configura o pipeline HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();

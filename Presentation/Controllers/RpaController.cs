@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presentation.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/rpa")]
 public class RpaController : ControllerBase
 {
     private readonly IRpaService _rpaService;
