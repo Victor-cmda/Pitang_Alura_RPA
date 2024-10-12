@@ -2,7 +2,7 @@ using Application.ViewModels;
 
 namespace Application.Interfaces;
 
-public interface ICursoService
+public interface ICourseService
 {
     Task<IEnumerable<CourseViewModel>> GetCoursesAsync();
 }

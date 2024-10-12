@@ -16,12 +16,12 @@ public class CourseRepository : ICourseRepository
 
     public async Task AddAsync(Course course)
     {
-        _context.Cursos.Add(course);
+        _context.Courses.Add(course);
         await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Course>> GetAllAsync()
     {
-        return await _context.Cursos.ToListAsync();
+        return await _context.Courses.ToListAsync();
     }
 }

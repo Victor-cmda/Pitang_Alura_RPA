@@ -4,7 +4,7 @@ using Domain.Interfaces;
 
 namespace Application.Services;
 
-public class CourseService : ICursoService
+public class CourseService : ICourseService
 {
     private readonly ICourseRepository _courseRepository;
 
@@ -15,22 +15,22 @@ public class CourseService : ICursoService
 
     public async Task<IEnumerable<CourseViewModel>> GetCoursesAsync()
     {
-        var cursos = await _courseRepository.GetAllAsync();
+        var courses = await _courseRepository.GetAllAsync();
 
-        var cursosViewModel = new List<CourseViewModel>();
+        var courseViewModels = new List<CourseViewModel>();
 
-        foreach (var curso in cursos)
+        foreach (var course in courses)
         {
-            cursosViewModel.Add(new CourseViewModel
+            courseViewModels.Add(new CourseViewModel
             {
-                Id = curso.Id,
-                Title = curso.Title,
-                Description = curso.Description,
-                Teacher = curso.Teacher,
-                Hours = curso.Hours
+                Id = course.Id,
+                Title = course.Title,
+                Description = course.Description,
+                Teacher = course.Teacher,
+                Hours = course.Hours
             });
         }
 
-        return cursosViewModel;
+        return courseViewModels;
     }
 }

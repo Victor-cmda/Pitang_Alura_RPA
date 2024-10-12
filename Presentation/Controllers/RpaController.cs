@@ -14,23 +14,23 @@ public class RpaController : ControllerBase
         _rpaService = rpaService;
     }
     
-    [HttpPost("execute")]
-    public async Task<IActionResult> ExecutarAutomacao([FromBody] string termoBusca)
+    [HttpPost("execute-service")]
+    public async Task<IActionResult> ExecuteAutomationCourses([FromBody] string filter)
     {
-        if (string.IsNullOrWhiteSpace(termoBusca))
+        if (string.IsNullOrWhiteSpace(filter))
         {
             return BadRequest("O termo de busca não pode ser vazio.");
         }
 
-        await _rpaService.ExecuteAsync(termoBusca);
+        await _rpaService.ExecuteAsync(filter);
         return Ok("Automação executada com sucesso.");
     }
 
 
     [HttpGet("courses")]
-    public async Task<IActionResult> ObterCursos([FromServices] ICursoService cursoService)
+    public async Task<IActionResult> GetCourses([FromServices] ICourseService courseService)
     {
-        var cursos = await cursoService.GetCoursesAsync();
-        return Ok(cursos);
+        var courses = await courseService.GetCoursesAsync();
+        return Ok(courses);
     }
 }

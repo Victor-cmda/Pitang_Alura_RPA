@@ -14,7 +14,7 @@ public static class DependencyInjection
     public static void RegisterServices(IServiceCollection services)
     {
         services.AddScoped<IRpaService, RpaService>();
-        services.AddScoped<ICursoService, CourseService>();
+        services.AddScoped<ICourseService, CourseService>();
 
         services.AddScoped<ICourseRepository, CourseRepository>();
 

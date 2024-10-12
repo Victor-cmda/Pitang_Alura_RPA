@@ -20,7 +20,7 @@ namespace Application.Services
             _logger = logger;
         }
 
-        public async Task ExecuteAsync(string termoBusca)
+        public async Task ExecuteAsync(string filter)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Application.Services
                 var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
                 var searchBox = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("header-barraBusca-form-campoBusca")));
-                searchBox.SendKeys(termoBusca);
+                searchBox.SendKeys(filter);
                 searchBox.Submit();
 
                 var advancedFilterButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".show-filter-options")));
@@ -52,9 +52,9 @@ namespace Application.Services
                 {
                     wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".busca-resultado")));
 
-                    var cursosElements = driver.FindElements(By.CssSelector(".busca-resultado"));
+                    var coursesElements = driver.FindElements(By.CssSelector(".busca-resultado"));
 
-                    foreach (var element in cursosElements)
+                    foreach (var element in coursesElements)
                     {
                         await CollectCourseData(driver, element, wait);
                     }
@@ -69,7 +69,7 @@ namespace Application.Services
                         else
                         {
                             nextButton.Click();
-                            wait.Until(ExpectedConditions.StalenessOf(cursosElements.First()));
+                            wait.Until(ExpectedConditions.StalenessOf(coursesElements.First()));
                             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".busca-resultado")));
                         }
                     }
@@ -175,7 +175,7 @@ namespace Application.Services
                 }
             }
 
-            var curso = new Course()
+            var course = new Course()
             {
                 Title = title,
                 Description = description,
@@ -183,7 +183,7 @@ namespace Application.Services
                 Teacher = teacher
             };
 
-            await _courseRepository.AddAsync(curso);
+            await _courseRepository.AddAsync(course);
 
             driver.Close();
             driver.SwitchTo().Window(driver.WindowHandles.First());
