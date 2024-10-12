@@ -24,4 +24,9 @@ public class CourseRepository : ICourseRepository
     {
         return await _context.Courses.ToListAsync();
     }
+
+    public async Task<bool> ExistsAsync(string title)
+    {
+        return await _context.Courses.AnyAsync(x=>x.Title == title);
+    }
 }
